@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post It - Khana Khajana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   
+    <style>
+        /* Hero Section */
+        .hero-section {
+            background-image: url("/static/AImages/hero_img.png");
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Navbar */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            width: 100%;
+            top: 0;
+        }
+
+        .nav-name {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-name i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: #ffeb3b;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ff9800;
+        }
+
+        /* Form Container */
+        .container {
+            max-width: 650px;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            margin-top: -50px;
+        }
+
+        h1 {
+            color: #ff5722;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Form Inputs */
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 12px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #ff5722;
+            box-shadow: 0px 0px 6px rgba(255, 87, 34, 0.5);
+        }
+
+        /* Submit Button */
+        .btn-primary {
+            background-color: #ff5722;
+            border: none;
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #e64a19;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section {
+                font-size: 1.5rem;
+                height: 180px;
+            }
+            
+            .nav-bar {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                margin-top: 10px;
+                gap: 15px;
+            }
+
+            .container {
+                width: 90%;
+                margin-top: -30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="hero-section">
+            <div class="nav-bar">
+                <div class="nav-name">
+                    <i class="fa-solid fa-utensils"></i> Khana Khajana !!
+                </div>
+                <div class="nav-links">
+                    <a href="/">Home</a>
+                </div>
+            </div>
+            <p>Share Your Best Recipes With the World!</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Post Your Recipe</h1>
+        <form action="/submit" method="POST" enctype="multipart/form-data" onsubmit="return showSuccessMessage()">
+
+            <div class="mb-3">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="Veg">Veg</option>
+                    <option value="Non-Veg">Non-Veg</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name of Recipe</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">One-Line Description</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredients</label>
+                <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Time Required</label>
+                <input type="text" class="form-control" id="time" name="time" required>
+            </div>
+            <div class="mb-3">
+                <label for="instructions" class="form-label">Instructions</label>
+                <textarea class="form-control" id="instructions" name="instructions" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="photo" class="form-label">Upload Photo</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showSuccessMessage() {
+            alert("Submitted successfully!");
+            return true; // Ensures the form is still submitted
+        }
+        
+    </script>
+</body>
+</html>

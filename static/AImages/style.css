@@ -1,0 +1,616 @@
+* {
+  margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: border-box;
+}
+
+
+.hero-section {
+    background-image: url("hero_img.png");
+    height: 460px;
+    background-size: cover;
+}
+
+/** Nav**/
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.nav-app {
+   color: white;
+   font-size: 0.85rem;
+   display: flex;
+   padding-top: 20px;
+   width: 50%;
+   justify-content: center;
+}
+
+.nav-app-text{
+  padding-left: 10px;
+  margin-right: 200px;
+}
+
+
+.anchor {
+  color: white;
+  font-size: 1.2rem;
+  padding-top: 20px;
+}
+
+.anchor :hover {
+  border: 3px solid rgb(197, 124, 29);
+}
+a{
+  text-decoration: none;
+  color: white;
+}
+
+/** Zomato **/
+.zomato {
+  margin-top: 60px;
+}
+
+.zomato-img {
+  background-image: url("Zomato.avif");
+  background-size: cover;
+  width: 310px;
+  height: 64px;
+  margin-left: 600px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+}
+
+.zomato-img:hover {
+  transform: scale(1.1); /* Slight zoom-in effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+.zomato-desc {
+  font-size: 20px;
+  color: white;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  margin-top: 45px;
+}
+
+.zomato-search {
+  display: flex; /* Flexbox for horizontal layout */
+  align-items: center; /* Align items vertically */
+  justify-content: space-between; /* Distribute items evenly */
+  width: 700px; /* Adjust overall width */
+  height: 52px; /* Set uniform height */
+  background-color: white;
+  margin: 15px auto; /* Center the search bar horizontally */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for styling */
+  padding: 0 15px; /* Add padding to the container */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+  margin-top: 50px;
+}
+
+.zomato-search:hover {
+  transform: translateY(-5px); /* Slight lift effect */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Add deeper shadow on hover */
+}
+
+/* Location Icon Section */
+.location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  font-size: 20px; /* Size for the location icon */
+  color: gray;
+  margin-right: 10px;
+}
+
+/* Dropdown Select */
+.zomato-search-select {
+  color: black;
+  width: 180px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  padding-left: 10px;
+  font-size: 1rem;
+  outline: none; /* Remove border outline */
+}
+
+/* Search Place Section */
+.zomato-search-place {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 250px); /* Adjust width dynamically */
+}
+
+.glass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  font-size: 20px; /* Size for the magnifying glass icon */
+  color: gray;
+  margin-right: 10px;
+}
+
+.zomato-search-place input {
+  flex: 1; /* Take up remaining space */
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+  outline: none; /* Remove border outline */
+}
+
+
+.cards {
+  height: auto; /* Adjust height dynamically */
+  background-color: white; /* Background color for the container */
+  display: flex;
+  justify-content: space-around; /* Center the cards horizontally */
+  align-items: center; /* Center the cards vertically */
+  gap: 20px; /* Space between cards */
+  padding: 20px; /* Add padding for better spacing */
+  flex-wrap: wrap; /* Ensure cards wrap to the next line if necessary */
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+.card1 {
+  height: 250px; /* Set consistent height for the cards */
+  width: 350px; /* Set consistent width for the cards */
+  background-color: white; /* Background color for the card */
+  border-radius: 20px; /* Rounded corners for the card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  overflow: hidden; /* Prevent content from overflowing */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center align content */
+  margin-top: 20px;
+}
+
+.card1-img {
+  background-image: url("img_1.avif"); /* Placeholder image */
+  background-size: cover; /* Ensure image covers the container */
+  background-position: center; /* Center the image */
+  height: 80%; /* Take up 80% of the card height */
+  width: 100%; /* Take up full width of the card */
+  border-top-left-radius: 20px; /* Match card's rounded corners */
+  border-top-right-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+}
+
+.card1-img:hover {
+  transform: scale(1.1); /* Slight zoom-in effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+
+.card3-img {
+  background-image: url("img_3.jpeg"); /* Placeholder image */
+  background-size: cover; /* Ensure image covers the container */
+  background-position: center; /* Center the image */
+  height: 80%; /* Take up 80% of the card height */
+  width: 100%; /* Take up full width of the card */
+  border-top-left-radius: 20px; /* Match card's rounded corners */
+  border-top-right-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+}
+
+.card3-img:hover {
+  transform: scale(1.1); /* Slight zoom-in effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+
+.card2-img {
+  background-image: url("img_2.avif"); /* Placeholder image */
+  background-size: cover; /* Ensure image covers the container */
+  background-position: center; /* Center the image */
+  height: 80%; /* Take up 80% of the card height */
+  width: 100%; /* Take up full width of the card */
+  border-top-left-radius: 20px; /* Match card's rounded corners */
+  border-top-right-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover animation */
+}
+
+.card2-img:hover {
+  transform: scale(1.1); /* Slight zoom-in effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+
+
+.card1-text {
+  height: 20%; /* Take up remaining 40% of the card height */
+  padding: 10px; /* Add padding for text content */
+  text-align: center; /* Center align text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center text vertically */
+  gap: 5px; /* Space between heading and paragraph */
+}
+
+.card1-text h5 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+}
+
+.card1-text p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cards {
+    flex-direction: column; /* Stack cards vertically on small screens */
+    align-items: center; /* Center cards */
+    gap: 15px; /* Reduce spacing for smaller screens */
+  }
+
+  .card1 {
+    width: 90%; /* Adjust card width for smaller screens */
+    height: auto; /* Allow dynamic height */
+  }
+
+  .card1-img {
+    height: 200px; /* Adjust image height for smaller cards */
+  }
+}
+
+
+/** Collection **/
+
+.collections {
+  margin-top: 30px;
+  height: auto;
+}
+
+.collection-head {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 36px;
+  margin-left: 180px;
+}
+
+.collection-para {
+  margin-top: 10px;
+  display: flex;
+  margin-left: 180px;
+  font-size: 18px;
+}
+
+.collection-para a{
+  color: red;
+  margin-left: 150px;
+}
+
+.collection-img-container {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  justify-content: space-evenly; /* Space the images evenly */
+  gap: 20px; /* Add some gap between images if needed */
+  margin-left: 170px;
+  margin-right: 200px;
+  margin-top: 10px;
+  height: 400px;
+}
+
+.collection-img {
+  position: relative; /* Allow positioning of text relative to the image */
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  height: 320px;
+  width: 260px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: flex-end; /* Align text to the bottom */
+}
+
+.collection-img-text {
+  position: absolute;
+  bottom: 10px; /* Position text slightly above the bottom */
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Add shadow for better readability */
+  width: 100%; /* Ensure text stays within the image */
+}
+
+.collection-img1 {
+  background-image: url("collection1.jpeg");
+}
+
+.collection-img2 {
+  background-image: url("collection2.jpeg");
+}
+
+.collection-img3 {
+  background-image: url("collection3.jpeg");
+}
+
+.collection-img4 {
+  background-image: url("collection4.jpeg");
+}
+
+/** Location **/
+
+.city {
+  height: 400px;
+  background-color: white;
+}
+
+.city-head {
+  font-size: 30px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding-top: 20px;
+  margin-left: 180px;
+}
+
+.city-cards {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping of items */
+  gap: 16px; /* Add space between cards */
+  justify-content: space-evenly; /* Center-align the rows */
+  margin-top: 20px;
+  margin-left: 120px;
+  margin-right: 150px;
+}
+
+.c1 {
+  flex: 1 1 calc(33.33% - 32px); /* 33.33% width minus gap adjustment */
+  max-width: 318px; /* Maintain a maximum width */
+  height: 78px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 0.8rem;
+  box-sizing: border-box; /* Include border in the width calculation */
+  padding-left: 10px;
+  padding-top: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation for hover */
+}
+
+.c1:hover {
+  transform: scale(1.1); /* Slight zoom-in effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.next {
+  margin-left: 280px; /* Position the arrow icon */
+}
+
+/** social **/
+.social {
+  background-color: rgb(255, 251, 247);
+  height: 450px;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.social-img {
+  background-image: url("insta.avif");
+  width: 410px;
+  height: 450px;
+  background-size: cover;
+}
+
+.social-desc {
+  margin-top: 40px;
+  margin-left: 150px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.s-d-m {
+  margin-top: 20px;
+}
+
+.s-select-opt {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+}
+
+.input-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.i-f-e, .i-f-m {
+  height: 40px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+.i-f-m-s {
+  height: 40px;
+  width: 60px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0 8px;
+}
+
+.i-f-b {
+  background-color: #ef4f5f;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 40px;
+  width: 200px;
+  margin-top: 20px;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation for hover */
+}
+
+.i-f-b:hover {
+  background-color: #d73b4b;
+}
+
+.social-opt-app {
+  margin-top: 25px;
+  margin-left: 10px;
+}
+
+.social-stores {
+  display: flex;
+  margin-top: 20px;
+  margin-left: 10px;
+  gap: 40px;
+
+}
+
+.social-google{
+   background-image: url("google.webp");
+   height: 40px;
+   width: 140px;
+   background-size: cover;
+   border-radius: 3px;
+}
+
+.social-apple {
+  background-image: url("apple.webp");
+  height: 40px;
+  width: 140px;
+  background-size: cover;
+  border-radius: 3px;
+}
+ 
+/** footer**/ 
+
+footer {
+  background-color: #ccc;
+  height: 500px;
+}
+
+.footer-head {
+  display: flex;
+  padding-top: 70px;
+  justify-content: space-between;
+  margin-left: 300px;
+  margin-right: 200px;
+}
+
+.footer-image {
+  background-image: url("Zomato.avif");
+  width: 132px;
+  height: 28px;
+  background-size: cover;
+}
+
+.footer-drop {
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.footer-drop:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.globe-icon {
+  color: #333;
+  font-size: 16px;
+  margin-right: 8px;
+  transition: color 0.3s ease;
+}
+
+.footer-drop:hover .globe-icon {
+  color: #010101; /* Blue color for hover effect */
+}
+
+.i-f-m-s {
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  background-color: transparent;
+  appearance: none; /* Hides the default dropdown arrow for consistent styling */
+  cursor: pointer;
+}
+
+.i-f-m-s:hover {
+  color: #070707;
+}
+
+.footer-cards {
+  display: flex;
+  margin-top: 40px;
+  justify-content: space-evenly;
+  margin-left: 145px;
+  border-bottom: 5px bold black;
+}
+
+.foot-card1 {
+  width: 200px;
+  height: 30px;
+}
+
+.foot-card1 p {
+  font-size: 1.2rem;
+  margin-left: 40px;
+}
+
+.foot-card1 li{
+  margin-top: 10px;
+  color: #555;
+  list-style-type: none;
+  font-size: 0.90rem;
+}
+
+.foot-image-sec p{
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.app {
+  margin-top: 20px;
+}
+
+.footer-end {
+  margin-top: 80px;
+  padding-top: 20px; /* Adds spacing above the text */
+  display: flex;
+  justify-content: center; /* Center-aligns the text */
+  text-align: center; /* Ensures text alignment */
+  color: #555; /* Slightly darker color for better readability */
+  font-size: 14px; /* Adjusted font size for a cleaner look */
+  margin-left: 300px;
+  margin-right: 300px;
+  border-top: 1px solid #ddd; /* Adds a thin line above the footer-end */
+}
+

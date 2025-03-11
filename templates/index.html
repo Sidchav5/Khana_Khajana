@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khana Khajana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="hero-section">
+            <div class="nav-bar">
+                <div class="nav-name">
+                    
+                    <p class="nav-name-text"> <i class="fa-solid fa-utensils"></i> Khana Khajana !!</p>
+                </div>
+                <div class="nav-main">
+                    <a href="{{ url_for('blogs') }}">Blog Page</a>
+                </div>
+                <div class="nav-signUp">
+                    <a href="{{ url_for('signup') }}">SignUp</a>
+                </div>
+                <div class="nav-login">
+                    <a href="{{ url_for('login') }}">Login</a>
+                </div>
+                <div class="nav-profile">
+                    <a href="{{ url_for('post_it') }}">Post It</a>
+                </div>
+            </div>
+            <div class="poster">
+                <p class="poster-name">Welcome to Khana Khajana !!</p>
+            </div>
+            <div class="poster-info">
+                <p>
+                    "Khana Khajana is a vibrant food blogging platform where food lovers can share and explore mouthwatering recipes, stories, and photos. Whether you're a home cook or a seasoned chef, it's the perfect space to showcase your culinary creations and discover delicious dishes from others."
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Veg and Non-Veg Sections -->
+    <div class="food">
+        <!-- Veg Section -->
+        <div class="veg">
+            <div class="veg-head">
+                <p><i class="fa-solid fa-bowl-food"></i> Famous Veg Items <i class="fa-solid fa-bowl-food"></i></p>
+            </div>
+            <div class="veg-cards">
+                <!-- Bootstrap Carousel -->
+                <div id="vegCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/Panner.jpeg" class="card-img-top" alt="Veg Item 1">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Panner Tikka</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/KandaBatata.jpeg" class="card-img-top" alt="Veg Item 2">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Kanda Batata</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/IdliSambar.jpeg" class="card-img-top" alt="Veg Item 3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Idli Sambar</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/ChanaDal.jpeg" class="card-img-top" alt="Veg Item 4">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Channa Dal</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/GheeRoastDosa.jpeg" class="card-img-top" alt="Veg Item 5">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Dosa</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="/static/VegItems/PavBhaji.jpeg" class="card-img-top" alt="Veg Item 6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Pav Bhaji</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#vegCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#vegCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Non-Veg Section -->
+        <div class="veg">
+            <div class="veg-head">
+                <p><i class="fa-solid fa-fish-fins"></i> Famous Non-Veg Items <i class="fa-solid fa-fish-fins"></i></p>
+            </div>
+            <div class="nonveg-cards">
+                <!-- Bootstrap Carousel -->
+                <div id="nonVegCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- First Carousel Item -->
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="cards/biryani.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/Biryani.jpeg" class="card-img-top" alt="Biryani">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Biryani</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="cards/chicken-fry.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/ChickenFry.jpeg" class="card-img-top" alt="Chicken Fry">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Chicken Fry</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="cards/egg-curry.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/EggCurry.jpeg" class="card-img-top" alt="Egg Curry">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Egg Curry</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second Carousel Item -->
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="cards/fish-fry.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/FishFry.jpeg" class="card-img-top" alt="Fish Fry">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Fish Fry</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="cards/mutton-curry.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/MuttonCurry.jpeg" class="card-img-top" alt="Mutton Curry">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Mutton Curry</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="cards/tandoori-chicken.html">
+                                        <div class="card">
+                                            <img src="/static/NonVegItems/TandooriChicken.jpeg" class="card-img-top" alt="Tandoori Chicken">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Tandoori Chicken</h5>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#nonVegCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#nonVegCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Food Blogging Information Section -->
+<div class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img id="food_blog" src="{{ url_for('static', filename='food_blog.jpg') }}" class="img-fluid rounded shadow-lg" alt="Food Blogging">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-success fw-bold">The Power of Food Blogging</h2>
+            <p class="text-muted">
+                Food blogging is more than just sharing recipes—it's about storytelling, culture, and passion. It brings people together through the love of food, showcasing diverse cuisines and unique cooking techniques from around the world. Whether you're a home cook experimenting with flavors or a professional chef perfecting a dish, food blogging allows you to document your journey and inspire others.
+            </p>
+            <p class="text-muted">
+                <strong>Khana Khajana</strong> is your gateway to this vibrant world. Our platform empowers food lovers to share their mouthwatering creations, discover exciting new recipes, and connect with a like-minded community. From traditional family recipes to innovative culinary experiments, every dish tells a story, and we are here to help you share yours. Join us, explore, and savor the art of cooking!
+            </p>
+        </div>
+    </div>
+</div>
+
+    <!-- Top 5 Most Liked Items Section -->
+    <!-- Top 5 Most Liked Items Section -->
+<div class="container mt-5" id=top5>
+    <h2 class="section-title text-center">Top 5 Most Liked Recipes</h2>
+    <div class="row" id="top-liked-recipes">
+        {% for recipe in top_liked_recipes %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ recipe.photo_data_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.name }}</h5>
+                    <div class="reactions">
+                        <button class="btn btn-outline-success like-btn" data-recipe-id="{{ recipe.id }}">
+                            👍 <span class="like-count">{{ recipe.likes }}</span>
+                        </button>
+                        <button class="btn btn-outline-danger dislike-btn" data-recipe-id="{{ recipe.id }}">
+                            👎 <span class="dislike-count">{{ recipe.dislikes }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center">
+            <p>No top liked recipes found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="chatbot-container">
+    <h2 class="cheading"><i class="fa-solid fa-utensils"></i>  Food Chatbot <i class="fa-solid fa-utensils"></i> </h2>
+    <div class="chat-layout">
+        <!-- Chat Section -->
+        <div class="chat-container">
+            <div class="card shadow-lg">
+                <div class="card-header text-white text-center">
+                    <h4 class="mb-0">Chat with our Food Bot</h4>
+                </div>
+                
+                <div class="card-body chat-box" id="chat-box">
+                    <!-- Chat messages will appear here -->
+                </div>
+        
+                <div class="card-footer">
+                    <form id="chat-form">
+                        <div class="input-group">
+                            <input type="text" id="user-input" class="form-control" placeholder="Ask about food..." required>
+                            <button class="btn btn-send" type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guide Section -->
+        <div class="guide-container">
+            <h3>How to Use the Chatbot</h3>
+            <ul>
+                <li>Type your food-related query in the input box.</li>
+                <li>Click "Send" or press "Enter" to submit.</li>
+                <li>Receive instant responses with food tips and recipes.</li>
+                <li>Ask about specific dishes, ingredients, or cooking methods.</li>
+                <li>Get personalized suggestions based on your preferences.</li>
+            </ul>
+
+            <h4>Example Questions:</h4>
+            <ul class="example-questions">
+                <li>✔ "How to make pasta?"</li>
+                <li>✔ "Best spices for curry?"</li>
+                <li>✔ "Healthy breakfast ideas?"</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <p> <i class="fa-solid fa-utensils"></i>Khana Khajana</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">Blog Page</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            <div class="footer-credit">
+                <p>© 2025 Khana Khajana. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("chat-form");
+            const userInput = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+        
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const message = userInput.value.trim();
+                if (message === "") return;
+        
+                appendMessage("user", message);
+                userInput.value = "";
+        
+                // Send user query to Flask backend
+                fetch("http://127.0.0.1:5000/get_response", 
+                     {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    appendMessage("bot", data.response || "Sorry, I couldn't generate a response.");
+                })
+                .catch(error => {
+                    appendMessage("bot", "Error: " + error);
+                });
+            });
+        
+            function appendMessage(sender, message) {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", sender);
+                messageDiv.innerHTML = `<p>${message}</p>`;
+                chatBox.appendChild(messageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+        document.getElementById("chat-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let userInput = document.getElementById("user-input").value.trim();
+            if (userInput === "") return;
+            
+            addMessage(userInput, "user");
+            document.getElementById("user-input").value = "";
+            
+            fetch("/get_response", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let formattedResponse = formatBotResponse(data.response);
+                addMessage(formattedResponse, "bot");
+            })
+            .catch(error => console.error("Error:", error));
+        });
+        
+        // Function to add messages to chat
+        function addMessage(message, sender) {
+            let chatBox = document.getElementById("chat-box");
+            let messageElement = document.createElement("div");
+            messageElement.classList.add("message", sender);
+        
+            // Allow HTML rendering for formatted bot responses
+            if (sender === "bot") {
+                messageElement.innerHTML = message; 
+            } else {
+                messageElement.textContent = message;
+            }
+        
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        // Function to format bot responses for better readability
+        function formatBotResponse(response) {
+            return response
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")  // Bold text
+                .replace(/\n/g, "<br>")  // Line breaks
+                .replace(/\*/g, "• ")   // Bullet points
+                .replace(/(✅|🔥|💡|⚡|🍵|🎯|📝|📌|➡️|🔹)/g, "<span>$1</span>"); // Keep emojis visible
+        }
+        
+    </script>
+        
+</body>
+</html>
