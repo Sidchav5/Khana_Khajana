@@ -1,13 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_mysqldb import MySQL
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
 import base64
-from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
-import requests
 import logging
+
 app = Flask(__name__)
 
 # Flask configuration
@@ -47,12 +46,10 @@ def load_user(user_id):
     return None
 
 # Home Page
-# Home Page
 @app.route('/')
 def home():
     cur = mysql.connection.cursor()
-
-    # Fetch top 5 most liked recipes (name, photo, likes, dislikes)
+    # Fetch top 6 most liked recipes (id, name, photo, likes, dislikes)
     cur.execute("SELECT id, name, photo, likes, dislikes FROM recipes ORDER BY likes DESC LIMIT 6")
     top_liked_recipes = cur.fetchall()
     cur.close()
@@ -60,14 +57,14 @@ def home():
     # Convert photo data to base64 URL format
     top_liked_recipes_with_photos = []
     for recipe in top_liked_recipes:
-        photo_base64 = recipe[2]  # 'photo' is the 3rd column in the query
+        photo_base64 = recipe[2]  # 'photo' column at index 2
         photo_data_url = f"data:image/jpeg;base64,{photo_base64}"
         recipe_dict = {
-            'id': recipe[0],  # Recipe ID
-            'name': recipe[1],  # Recipe name
-            'photo_data_url': photo_data_url,  # Base64 photo
-            'likes': recipe[3],  # Number of likes
-            'dislikes': recipe[4]  # Number of dislikes
+            'id': recipe[0],
+            'name': recipe[1],
+            'photo_data_url': photo_data_url,
+            'likes': recipe[3],
+            'dislikes': recipe[4]
         }
         top_liked_recipes_with_photos.append(recipe_dict)
 
@@ -90,6 +87,7 @@ def submit():
         ingredients = request.form['ingredients']
         time = request.form['time']
         instructions = request.form['instructions']
+        writer = request.form['writer']  # new field for writer name
         photo = request.files['photo']
 
         # Convert the image to base64
@@ -99,22 +97,23 @@ def submit():
             flash('Invalid image file!', 'danger')
             return redirect(url_for('post_it'))
 
-        # Save to database with user_id
+        # Save to database.
+        # Note: The insert query explicitly names the columns.
         cur = mysql.connection.cursor()
         cur.execute(
-            "INSERT INTO recipes (type, name, description, ingredients, time, instructions, photo, user_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-            (type, name, description, ingredients, time, instructions, photo_base64, current_user.id)
+            "INSERT INTO recipes (type, name, description, ingredients, time, instructions, photo, user_id, writer, comments) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            (type, name, description, ingredients, time, instructions, photo_base64, current_user.id, writer, "")
         )
         mysql.connection.commit()
         cur.close()
 
         flash('Recipe submitted successfully!', 'success')
         return redirect(url_for('post_it'))
+
 # Blog Page
 @app.route('/blogs')
 def blogs():
     cur = mysql.connection.cursor()
-
     # Fetch all recipes
     cur.execute("SELECT * FROM recipes")
     recipes = cur.fetchall()
@@ -122,13 +121,15 @@ def blogs():
     # Fetch top 5 most liked recipes (only name, photo, likes, dislikes)
     cur.execute("SELECT name, photo, likes, dislikes FROM recipes ORDER BY likes DESC LIMIT 5")
     top_liked_recipes = cur.fetchall()
-
     cur.close()
 
-    # Add photo_data_url to each recipe
+    # Build recipes list with the updated column indexes:
+    # Indexes based on current table structure:
+    # 0:id, 1:type, 2:name, 3:description, 4:ingredients, 5:time,
+    # 6:instructions, 7:photo, 8:user_id, 9:likes, 10:dislikes, 11:writer, 12:comments
     recipes_with_photos = []
     for recipe in recipes:
-        photo_base64 = recipe[7]  # Assuming 'photo' is the 7th column
+        photo_base64 = recipe[7]  # photo is at index 7
         photo_data_url = f"data:image/jpeg;base64,{photo_base64}"
         recipe_dict = {
             'id': recipe[0],
@@ -140,25 +141,54 @@ def blogs():
             'instructions': recipe[6],
             'photo_data_url': photo_data_url,
             'user_id': recipe[8],
-            'likes': recipe[9],  # New likes column
-            'dislikes': recipe[10]  # New dislikes column
+            'likes': recipe[9],
+            'dislikes': recipe[10],
+            'writer': recipe[11],
+            'comments': recipe[12]
         }
         recipes_with_photos.append(recipe_dict)
 
-    # Add photo_data_url to top liked recipes
+    # Process top liked recipes
     top_liked_recipes_with_photos = []
     for recipe in top_liked_recipes:
-        photo_base64 = recipe[1]  # 'photo' is the 2nd column in the query
+        photo_base64 = recipe[1]  # 'photo' is the 2nd column in this query
         photo_data_url = f"data:image/jpeg;base64,{photo_base64}"
         recipe_dict = {
-            'name': recipe[0],  # 'name' is the 1st column in the query
+            'name': recipe[0],
             'photo_data_url': photo_data_url,
-            'likes': recipe[2],  # 'likes' is the 3rd column in the query
-            'dislikes': recipe[3]  # 'dislikes' is the 4th column in the query
+            'likes': recipe[2],
+            'dislikes': recipe[3]
         }
         top_liked_recipes_with_photos.append(recipe_dict)
 
     return render_template('blog.html', recipes=recipes_with_photos, top_liked_recipes=top_liked_recipes_with_photos)
+
+# Add Comment Route
+@app.route('/add_comment/<int:id>', methods=['POST'])
+@login_required
+def add_comment(id):
+    comment = request.form['comment']
+    if not comment:
+        flash('Comment cannot be empty.', 'danger')
+        return redirect(url_for('recipe_detail', id=id))
+
+    cur = mysql.connection.cursor()
+    # Fetch existing comments
+    cur.execute("SELECT comments FROM recipes WHERE id = %s", [id])
+    row = cur.fetchone()
+    existing_comments = row[0] if row and row[0] else ""
+
+    # Append new comment. (For production, consider a more robust comments system.)
+    new_comment = f"{current_user.username}: {comment}\n"
+    updated_comments = existing_comments + new_comment
+
+    cur.execute("UPDATE recipes SET comments = %s WHERE id = %s", (updated_comments, id))
+    mysql.connection.commit()
+    cur.close()
+
+    flash('Comment added!', 'success')
+    return redirect(url_for('recipe_detail', id=id))
+
 # Recipe Detail Page
 @app.route('/recipe/<int:id>')
 def recipe_detail(id):
@@ -168,16 +198,15 @@ def recipe_detail(id):
     cur.close()
 
     if recipe:
-      photo_base64 = recipe[7]  # Assuming 'photo' is the 7th column
-      photo_data_url = f"data:image/jpeg;base64,{photo_base64}"
-      return render_template('recipe_detail.html', recipe=recipe, photo_data_url=photo_data_url)
-
+        # Using the new column order: photo is at index 7.
+        photo_base64 = recipe[7]
+        photo_data_url = f"data:image/jpeg;base64,{photo_base64}"
+        return render_template('recipe_detail.html', recipe=recipe, photo_data_url=photo_data_url)
     else:
         flash('Recipe not found!', 'danger')
         return redirect(url_for('blogs'))
-# Delete Recipe
-from flask import jsonify
 
+# Delete Recipe
 @app.route('/delete_recipe/<int:id>', methods=['POST'])
 @login_required
 def delete_recipe(id):
@@ -191,13 +220,11 @@ def delete_recipe(id):
     if recipe[0] != current_user.id:
         return jsonify({'success': False, 'message': 'You are not authorized to delete this recipe'}), 403
 
-    # Delete the recipe
     cur.execute("DELETE FROM recipes WHERE id = %s", [id])
     mysql.connection.commit()
     cur.close()
-    
-    return jsonify({'success': True, 'message': 'Recipe deleted successfully'}), 200
 
+    return jsonify({'success': True, 'message': 'Recipe deleted successfully'}), 200
 
 # Signup Page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -207,7 +234,6 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        # Check if the username or email already exists
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM users WHERE username = %s OR email = %s", (username, email))
         user = cur.fetchone()
@@ -215,7 +241,6 @@ def signup():
             flash('Username or email already exists!', 'danger')
             return redirect(url_for('signup'))
 
-        # Create a new user
         cur.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
         mysql.connection.commit()
         cur.close()
@@ -232,12 +257,11 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        # Check if the user exists
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM users WHERE email = %s", [email])
         user = cur.fetchone()
         cur.close()
-        if user and user[3] == password:  # user[3] is the password field
+        if user and user[3] == password:
             user_obj = User(id=user[0], username=user[1], email=user[2], password=user[3])
             login_user(user_obj)
             flash('Logged in successfully!', 'success')
@@ -254,8 +278,6 @@ def logout():
     logout_user()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('home'))
-
-import os
 
 # Define allowed file extensions
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -282,7 +304,8 @@ def dislike_recipe(id):
     mysql.connection.commit()
     cur.close()
     return jsonify(success=True)
-# API Key (Consider moving this to a config file instead of hardcoding)
+
+# API Key for Gemini (Consider moving this to a secure config file)
 GEMINI_API_KEY = "AIzaSyA1CRQ7RqfGMspM7MXfnNuiUJXXm3zClZ8"
 
 # Configure logging
@@ -290,39 +313,43 @@ logging.basicConfig(level=logging.INFO)
 
 def get_gemini_response(user_input):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
-
     headers = {"Content-Type": "application/json"}
     payload = {
         "contents": [
             {"parts": [{"text": user_input}]}
         ]
     }
-
     try:
         response = requests.post(url, headers=headers, json=payload, timeout=10)
-        response.raise_for_status()  # Raise an error for HTTP status codes like 400/500
-
+        response.raise_for_status()
         response_json = response.json()
         return response_json.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "No response generated.")
-    
     except requests.exceptions.Timeout:
         logging.error("Request timed out.")
         return "The AI service is taking too long to respond. Please try again."
-    
     except requests.exceptions.RequestException as e:
         logging.error(f"Request error: {e}")
         return "Error communicating with the AI service."
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+def is_recipe_query(text):
+    """
+    Check if the input text is related to recipes or cooking.
+    Adjust the keywords as needed.
+    """
+    text_lower = text.lower()
+    keywords = ["recipe", "ingredients", "cook", "dish", "prepare", "food"]
+    return any(keyword in text_lower for keyword in keywords)
 
 @app.route("/get_response", methods=["POST"])
 def chatbot_response():
     user_message = request.json.get("message", "").strip()
     if not user_message:
         return jsonify({"response": "Please enter a message."})
-
+    
+    # Only answer if the question is recipe-related
+    if not is_recipe_query(user_message):
+        return jsonify({"response": "I'm sorry, I can only answer recipe-related questions. Please ask something about food or recipes."})
+    
     bot_reply = get_gemini_response(user_message)
     return jsonify({"response": bot_reply})
 

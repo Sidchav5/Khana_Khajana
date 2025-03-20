@@ -189,6 +189,23 @@
         <h3 class="section-title">Instructions</h3>
         <p><strong>{{ recipe[6] }}</strong></p>
 
+        <p><strong>Written by:</strong> {{ recipe[11] }}</p>
+<div class="mt-4">
+    <h4>Comments:</h4>
+    <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px;">{{ recipe[12] }}</pre>
+</div>
+{% if current_user.is_authenticated %}
+<div class="mt-4">
+    <h5>Add a Comment:</h5>
+    <form action="{{ url_for('add_comment', id=recipe[0]) }}" method="POST">
+        <div class="mb-3">
+            <textarea class="form-control" name="comment" rows="3" placeholder="Enter your comment here" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+</div>
+{% endif %}
+
         {% if current_user.is_authenticated and current_user.id == recipe[7] %}
         <form action="{{ url_for('delete_recipe', id=recipe[0]) }}" method="POST">
             <button type="submit" class="btn btn-danger">Delete Recipe</button>
