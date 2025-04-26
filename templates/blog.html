@@ -9,18 +9,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
-        .hero-section { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); height: 220px; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        .hero-section { 
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+        }
         .hero-section h1 { font-size: 3rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
-        .nav-bar { display: flex; align-items: center; justify-content: space-between; padding: 20px; background-color: rgba(0, 0, 0, 0.5); position: absolute; top: 0; left: 0; right: 0; }
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
         .nav-main a { color: white; font-size: 1.2rem; margin-left: 20px; text-decoration: none; transition: color 0.3s ease; }
         .nav-main a:hover { color: #ff7eb3; }
         .card { border: none; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
         .card-img-top { width: 100%; height: 200px; object-fit: cover; }
         .btn-primary, .btn-danger { border-radius: 25px; padding: 10px 20px; transition: 0.3s; }
-        .btn-primary:hover { background-color:rgb(169, 68, 63); }
+        .btn-primary:hover { background-color: rgb(169, 68, 63); }
         .btn-danger:hover { background-color: #dc3545; }
-        footer { background-color: #333; color: white; padding: 20px 0; text-align: center; }
+        footer { background-color: #333; color: white; padding: 20px 0; text-align: center; margin-top: 40px; }
         .reactions {
             display: flex;
             gap: 10px;
@@ -36,80 +57,91 @@
         }
         .like-btn:hover { background-color: #28a745; color: white; }
         .dislike-btn:hover { background-color: #dc3545; color: white; }
-        h1 {
-            margin-top: 50px;
-        }
     </style>
 </head>
 <body>
     <header>
         <div class="hero-section">
             <div class="nav-bar">
-                <div class="nav-name"><p class="nav-name-text"> <i class="fas fa-utensils"></i> Khana Khajana !!</p></div>
+                <div class="nav-name"><p class="nav-name-text"><i class="fas fa-utensils"></i> Khana Khajana !!</p></div>
                 <div class="nav-main"><a href="/">Home</a></div>
             </div>
             <h1>Discover Delicious Recipes !!</h1>
         </div>
     </header>
+
     <div class="container mt-5">
+        <form method="GET" action="{{ url_for('search') }}" class="mb-4 d-flex justify-content-center">
+            <input type="text" name="query" class="form-control w-50 me-2" placeholder="Search by blog name or writer name" value="{{ request.args.get('query', '') }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
         <h2 class="section-title text-center">Veg Blogs</h2>
         <div class="row" id="veg-blogs">
-            {% for recipe in recipes if recipe.type == 'Veg' %}
-            <div class="col-md-4 mb-4" id="recipe-{{ recipe.id }}">
-                <div class="card">
-                    <img src="{{ recipe.photo_data_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recipe.name }}</h5>
-                        <p class="card-text">{{ recipe.description }}</p>
-                        <div class="reactions">
-                            <button class="btn btn-outline-success like-btn" data-recipe-id="{{ recipe.id }}">👍 <span class="like-count">{{ recipe.likes }}</span></button>
-                            <button class="btn btn-outline-danger dislike-btn" data-recipe-id="{{ recipe.id }}">👎 <span class="dislike-count">{{ recipe.dislikes }}</span></button>
+            {% set veg_recipes = recipes | selectattr('type', 'equalto', 'Veg') | list %}
+            {% if veg_recipes %}
+                {% for recipe in veg_recipes %}
+                <div class="col-md-4 mb-4" id="recipe-{{ recipe.id }}">
+                    <div class="card">
+                        <img loading="lazy" src="{{ recipe.photo_data_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name or 'Recipe Image' }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <p class="card-text">{{ recipe.description }}</p>
+                            <div class="reactions">
+                                <button class="btn btn-outline-success like-btn" aria-label="Like {{ recipe.name }}" data-recipe-id="{{ recipe.id }}">👍 <span class="like-count">{{ recipe.likes }}</span></button>
+                                <button class="btn btn-outline-danger dislike-btn" aria-label="Dislike {{ recipe.name }}" data-recipe-id="{{ recipe.id }}">👎 <span class="dislike-count">{{ recipe.dislikes }}</span></button>
+                            </div>
+                            <a href="{{ url_for('recipe_detail', id=recipe.id) }}" class="btn btn-primary">Read More</a>
+                            {% if current_user.is_authenticated and current_user.id == recipe.user_id %}
+                            <button class="btn btn-danger delete-btn" aria-label="Delete {{ recipe.name }}" data-recipe-id="{{ recipe.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
+                            {% endif %}
                         </div>
-                        <a href="{{ url_for('recipe_detail', id=recipe.id) }}" class="btn btn-primary">Read More</a>
-                        {% if current_user.is_authenticated and current_user.id == recipe.user_id %}
-                        <button class="btn btn-danger delete-btn" data-recipe-id="{{ recipe.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
-                        {% endif %}
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <p class="text-center text-muted">No Veg recipes found.</p>
+            {% endif %}
         </div>
 
         <h2 class="section-title text-center mt-5">Non-Veg Blogs</h2>
         <div class="row" id="nonveg-blogs">
-            {% for recipe in recipes if recipe.type == 'Non-Veg' %}
-            <div class="col-md-4 mb-4" id="recipe-{{ recipe.id }}">
-                <div class="card">
-                    <img src="{{ recipe.photo_data_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recipe.name }}</h5>
-                        <p class="card-text">{{ recipe.description }}</p>
-                        <div class="reactions">
-                            <button class="btn btn-outline-success like-btn" data-recipe-id="{{ recipe.id }}">👍 <span class="like-count">{{ recipe.likes }}</span></button>
-                            <button class="btn btn-outline-danger dislike-btn" data-recipe-id="{{ recipe.id }}">👎 <span class="dislike-count">{{ recipe.dislikes }}</span></button>
+            {% set nonveg_recipes = recipes | selectattr('type', 'equalto', 'Non-Veg') | list %}
+            {% if nonveg_recipes %}
+                {% for recipe in nonveg_recipes %}
+                <div class="col-md-4 mb-4" id="recipe-{{ recipe.id }}">
+                    <div class="card">
+                        <img loading="lazy" src="{{ recipe.photo_data_url or url_for('static', filename='placeholder.jpg') }}" class="card-img-top" alt="{{ recipe.name or 'Recipe Image' }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <p class="card-text">{{ recipe.description }}</p>
+                            <div class="reactions">
+                                <button class="btn btn-outline-success like-btn" aria-label="Like {{ recipe.name }}" data-recipe-id="{{ recipe.id }}">👍 <span class="like-count">{{ recipe.likes }}</span></button>
+                                <button class="btn btn-outline-danger dislike-btn" aria-label="Dislike {{ recipe.name }}" data-recipe-id="{{ recipe.id }}">👎 <span class="dislike-count">{{ recipe.dislikes }}</span></button>
+                            </div>
+                            <a href="{{ url_for('recipe_detail', id=recipe.id) }}" class="btn btn-primary">Read More</a>
+                            {% if current_user.is_authenticated and current_user.id == recipe.user_id %}
+                            <button class="btn btn-danger delete-btn" aria-label="Delete {{ recipe.name }}" data-recipe-id="{{ recipe.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
+                            {% endif %}
                         </div>
-                        <a href="{{ url_for('recipe_detail', id=recipe.id) }}" class="btn btn-primary">Read More</a>
-                        {% if current_user.is_authenticated and current_user.id == recipe.user_id %}
-                        <button class="btn btn-danger delete-btn" data-recipe-id="{{ recipe.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
-                        {% endif %}
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <p class="text-center text-muted">No Non-Veg recipes found.</p>
+            {% endif %}
         </div>
     </div>
+
     <footer><p>&copy; 2024 Khana Khajana. All rights reserved.</p></footer>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // DELETE FUNCTIONALITY
             document.querySelectorAll('.delete-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     if (!confirm('Are you sure you want to delete this recipe?')) return;
-    
                     const recipeId = button.getAttribute('data-recipe-id');
                     const response = await fetch(`/delete_recipe/${recipeId}`, { method: 'POST' });
-    
                     if (response.ok) {
                         const data = await response.json();
                         if (data.success) {
@@ -123,13 +155,11 @@
                     }
                 });
             });
-    
-            // LIKE & DISLIKE FUNCTIONALITY
+
             document.querySelectorAll('.like-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     const recipeId = button.getAttribute('data-recipe-id');
                     const response = await fetch(`/like_recipe/${recipeId}`, { method: 'POST' });
-    
                     if (response.ok) {
                         const data = await response.json();
                         if (data.success) {
@@ -142,12 +172,11 @@
                     }
                 });
             });
-    
+
             document.querySelectorAll('.dislike-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     const recipeId = button.getAttribute('data-recipe-id');
                     const response = await fetch(`/dislike_recipe/${recipeId}`, { method: 'POST' });
-    
                     if (response.ok) {
                         const data = await response.json();
                         if (data.success) {
@@ -162,6 +191,5 @@
             });
         });
     </script>
-    
 </body>
 </html>

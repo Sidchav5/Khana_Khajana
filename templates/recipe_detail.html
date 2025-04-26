@@ -14,14 +14,16 @@
         /* General Styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(to bottom, #ffefdb, #f8d9c4);
             color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-            height: 250px;
+            background: linear-gradient(135deg, #f8b195 0%, #f67280 100%);
+            height: 280px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,12 +31,14 @@
             color: white;
             text-align: center;
             position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 50px 50px;
         }
 
         .hero-section h1 {
             font-size: 3rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         /* Navigation Bar */
@@ -42,21 +46,21 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
+            width: 90%;
             max-width: 1200px;
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px 25px;
-            border-radius: 10px;
+            padding: 12px 30px;
+            border-radius: 12px;
             backdrop-filter: blur(10px);
         }
 
         .nav-name {
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
             font-weight: 600;
@@ -71,12 +75,12 @@
             font-size: 1.2rem;
             margin-left: 20px;
             text-decoration: none;
-            transition: 0.3s;
             font-weight: 500;
+            transition: 0.3s;
         }
 
         .nav-main a:hover {
-            color: #fff3cd;
+            color: #ffe0ac;
         }
 
         /* Recipe Card */
@@ -84,60 +88,84 @@
             max-width: 900px;
             margin: 50px auto;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .recipe-container img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
+            object-fit: cover;
+            height: 400px;
+            display: block;
+            margin: 20px auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .recipe-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 20px;
+            color: #d9534f;
         }
 
         .section-title {
             font-size: 1.8rem;
             font-weight: 600;
-            color: #ff758c;
-            margin-top: 20px;
+            color: #e67e22;
+            margin-top: 25px;
         }
 
         p {
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 1.2rem;
+            line-height: 1.8;
             color: #555;
         }
 
         /* Buttons */
-        .btn-danger {
+        .btn-danger, .btn-primary {
             display: block;
             width: 100%;
             text-align: center;
             border-radius: 25px;
             padding: 12px;
-            font-size: 1rem;
-            transition: 0.3s;
-            background: #ff4757;
-            border: none;
+            font-size: 1.1rem;
             font-weight: 600;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
         }
 
         .btn-danger:hover {
-            background: #d63031;
+            background: #c0392b;
+        }
+
+        .btn-primary {
+            background: #3498db;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        /* Comments Section */
+        .comments-container {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
         }
 
         /* Footer */
         footer {
-            background: #222;
+            background: #333;
             color: white;
-            padding: 20px 0;
+            padding: 25px 0;
             text-align: center;
             margin-top: 50px;
         }
@@ -150,7 +178,7 @@
         }
 
         footer a:hover {
-            color: #ff6f61;
+            color: #f8b195;
         }
     </style>
 </head>
@@ -161,8 +189,7 @@
         <div class="hero-section">
             <div class="nav-bar">
                 <div class="nav-name">
-                    
-                  <p> <i class="fas fa-utensils"></i> Khana Khajana !!</p>
+                    <i class="fas fa-utensils"></i> Khana Khajana !!
                 </div>
                 <div class="nav-main">
                     <a href="/">Home</a>
@@ -178,8 +205,6 @@
         
         <img src="{{ photo_data_url }}" alt="{{ recipe[2] }}" class="img-fluid">
         
-        <p class="mt-3">{{ recipe[3] }}</p>
-
         <h3 class="section-title">Ingredients</h3>
         <p>{{ recipe[4] }}</p>
 
@@ -187,42 +212,32 @@
         <p>{{ recipe[5] }}</p>
 
         <h3 class="section-title">Instructions</h3>
-        <p><strong>{{ recipe[6] }}</strong></p>
+        <p>{{ recipe[6] }}</p>
 
         <p><strong>Written by:</strong> {{ recipe[11] }}</p>
-<div class="mt-4">
-    <h4>Comments:</h4>
-    <pre style="background: #f8f9fa; padding: 10px; border-radius: 5px;">{{ recipe[12] }}</pre>
-</div>
-{% if current_user.is_authenticated %}
-<div class="mt-4">
-    <h5>Add a Comment:</h5>
-    <form action="{{ url_for('add_comment', id=recipe[0]) }}" method="POST">
-        <div class="mb-3">
-            <textarea class="form-control" name="comment" rows="3" placeholder="Enter your comment here" required></textarea>
+
+        <!-- Comments Section -->
+        <div class="comments-container">
+            <h4>Comments:</h4>
+            <pre>{{ recipe[12] }}</pre>
+
+            {% if current_user.is_authenticated %}
+            <h5>Add a Comment:</h5>
+            <form action="{{ url_for('add_comment', id=recipe[0]) }}" method="POST">
+                <textarea class="form-control" name="comment" rows="3" placeholder="Enter your comment here" required></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+            </form>
+            {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Submit Comment</button>
-    </form>
-</div>
-{% endif %}
 
         {% if current_user.is_authenticated and current_user.id == recipe[7] %}
         <form action="{{ url_for('delete_recipe', id=recipe[0]) }}" method="POST">
-            <button type="submit" class="btn btn-danger">Delete Recipe</button>
+            <button type="submit" class="btn btn-danger mt-3">Delete Recipe</button>
         </form>
         {% endif %}
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Khana Khajana. All rights reserved.</p>
-        <div>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-    </footer>
+    <footer>&copy; 2024 Khana Khajana. All rights reserved.</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
